@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace MarketGame.Controllers
 {
+    [Route("api/")]
     public class LandingPageController : ControllerBase
     {
         [HttpGet("Ping")]
         public IActionResult Ping()
         {
-            return Ok("It's working!");
+            return Ok(true);
         }
     }
 }

@@ -1,3 +1,4 @@
+using MarketGame.Core.Infra.Log;
 using MarketGame.Core.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -18,11 +19,16 @@ namespace MarketGame
 
         public IConfiguration Configuration { get; }
 
+        private static void RegisterInterfaces(IServiceCollection services)
+        {
+            services.AddSingleton<IGameStateManager, GameStateManager>();
+            services.AddSingleton<ILogService, LogService>();
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddSingleton<IGameStateManager, GameStateManager>();
+            RegisterInterfaces(services);
 
             services.AddControllersWithViews();
             // In production, the Angular files will be served from this directory
@@ -30,6 +36,8 @@ namespace MarketGame
                 configuration.RootPath = "ClientApp/dist";
             });
         }
+
+        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
