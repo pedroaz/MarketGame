@@ -1,9 +1,10 @@
+
+// Angular
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
@@ -13,6 +14,9 @@ import {ButtonModule} from 'primeng/button';
 // Pages
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { PortalPageComponent } from './pages/portal-page/portal-page.component';
+
+// Services
+import { HelperService } from './services/helper/helper.service'
 
 @NgModule({
   declarations: [
@@ -31,7 +35,9 @@ import { PortalPageComponent } from './pages/portal-page/portal-page.component';
       ], 
       { relativeLinkResolution: 'legacy' })
   ],
-  providers: [],
+  providers: [
+    HelperService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
