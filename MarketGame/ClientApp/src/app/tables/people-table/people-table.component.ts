@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Person } from 'src/app/models/person';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-people-table',
@@ -9,39 +11,20 @@ import { Person } from 'src/app/models/person';
 export class PeopleTableComponent implements OnInit {
 
   people: Person[] = [];
-  cols: any[];
 
-  constructor() { 
-
-    this.cols = [
-      {field: 'id', header: 'Id'},
-      {field: 'money', header: 'Money'},
-      {field: 'name', header: 'Name'},
-      {field: 'stockCertificates', header: 'StockCertificates'}
-  ];
-
-
-    this.people.push(<Person>{
-      id: 0,
-      money: 10,
-      name: "Pedro",
-      stockCertificates: null
-    });
-
-    this.people.push(<Person>{
-      id: 1,
-      money: 100,
-      name: "Carol",
-      stockCertificates: null
-    });
-
+  constructor(private apiService: ApiService, private router : Router) { 
   }
 
   selectPerson(id: number){
-    console.log("Selecting person with id: " + id);
+    this.router.navigateByUrl("/person/"+id);
   }
 
-  ngOnInit(): void {
+  async refresh(){
+    this.people = await this.apiService.getPeople();
+  }
+
+  async ngOnInit(): Promise<void> {
+    await this.refresh();
   }
 
 }

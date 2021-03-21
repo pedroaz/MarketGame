@@ -1,4 +1,5 @@
 ﻿using MarketGame.Core.Models.Market;
+using MarketGame.Core.Models.People;
 using MarketGame.Core.State;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -19,25 +20,25 @@ namespace MarketGame.Controllers
         }
 
         [HttpGet("People")]
-        public IActionResult People()
+        public ActionResult<IEnumerable<Person>> People()
         {
             return Ok(gameStateManager.GameState.People);
         }
 
         [HttpGet("PeopleById")]
-        public IActionResult PeopleById(int id)
+        public ActionResult<Person> PeopleById(int id)
         {
-            return Ok(gameStateManager.GameState.People.Where(x => x.Id.Equals(id)));
+            return Ok(gameStateManager.GameState.People.Where(x => x.Id.Equals(id)).FirstOrDefault());
         }
 
         [HttpGet("SellOrders")]
-        public IActionResult SellOrders()
+        public ActionResult<IEnumerable<Order>> SellOrders()
         {
             return Ok(gameStateManager.GameState.Orders.Where(x => x.OrderType.Equals(OrderType.Sell)));
         }
 
         [HttpGet("BuyOrders")]
-        public IActionResult BuyOrders()
+        public ActionResult<IEnumerable<Order>> BuyOrders()
         {
             return Ok(gameStateManager.GameState.Orders.Where(x => x.OrderType.Equals(OrderType.Buy)));
         }

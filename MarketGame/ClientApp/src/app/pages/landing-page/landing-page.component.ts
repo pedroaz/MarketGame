@@ -8,12 +8,14 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class LandingPageComponent implements OnInit {
 
+  isServerOnline: Boolean = false;
+
   constructor(private apiService: ApiService) { 
     
   }
 
-  ngOnInit(): void {
-    this.apiService.getBots();
+  async ngOnInit(): Promise<void> {
+    this.isServerOnline = await this.apiService.pingServer();
   }
 
 }

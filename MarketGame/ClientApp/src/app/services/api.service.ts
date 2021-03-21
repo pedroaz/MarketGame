@@ -16,17 +16,15 @@ export class ApiService {
     this.baseUrl = baseUrl;
    }
 
-  pingServer(){
-    this.httpClient.get<Boolean>(this.baseUrl + 'api/ping').subscribe(result => {
-      console.log("Server is: " + result);
-    }, 
-    error => console.error(error));
+  async pingServer(){
+    return await this.httpClient.get<Boolean>(this.baseUrl + 'api/ping').toPromise();
   }
 
-  getBots(){
-    this.httpClient.get<Person>(this.baseUrl + 'api/Bots').subscribe(result => {
-      console.log(result);
-    }, 
-    error => console.error(error));
+  async getPeople(){
+    return await this.httpClient.get<Person[]>(this.baseUrl + 'api/People').toPromise();
+  }
+
+  async getPersonById(id: string){
+    return await this.httpClient.get<Person>(this.baseUrl + 'api/PeopleById?id='+id).toPromise();
   }
 }
