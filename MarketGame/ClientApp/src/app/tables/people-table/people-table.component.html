@@ -1,1 +1,32 @@
-<p>people-table works!</p>
+<div class="card">
+
+    <h5>Virtual Scroll with Preloaded Data (10000 Rows)</h5>
+
+    <p-table 
+        [value]="people" 
+        [virtualScroll]="true" 
+        [virtualRowHeight]="34"
+        [scrollable]="true"
+        [rows]="100" 
+        scrollHeight="250px"
+    >
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Person</th>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Money</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-person>
+            <tr>
+                <button (click)="selectPerson(person.id)" pButton pRipple type="button" icon="pi pi-user" class="p-button-rounded p-button-info"></button>
+                <td>{{person.id}}</td>
+                <td>{{person.name}}</td>
+                <td>{{person.money}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+

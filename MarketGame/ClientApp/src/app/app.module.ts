@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 // NGPRIME:
 import { ButtonModule } from 'primeng/button';
 import {TableModule} from 'primeng/table';
+import {CardModule} from 'primeng/card';
 
 // Pages
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -33,6 +34,8 @@ import { PeopleTableComponent } from './tables/people-table/people-table.compone
     HttpClientModule,
     FormsModule,
     ButtonModule,
+    TableModule,
+    CardModule,
     RouterModule.forRoot(
       [
         { path: '', component: LandingPageComponent},
