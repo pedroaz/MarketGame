@@ -53,16 +53,17 @@ namespace MarketGame.Core.Initializer
                     });
                 }
 
-                gameStateManager.GameState.Bots.Add(bot);
+                gameStateManager.GameState.People.Add(bot);
             }
 
 
             logService.Log("Finished initializing game");
         }
 
-        public BotPerson CreateBot()
+        public Person CreateBot()
         {
-            BotPerson bot = new BotPerson() {
+            var bot = new Person() {
+                PersonType = PersonType.Bot,
                 Id = PersonCounter,
                 Money = randomService.RandomInt(0, 1000),
                 Name = $"BOT_{PersonCounter}",

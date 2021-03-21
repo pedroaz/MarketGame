@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace MarketGame.Core.Models.People
 {
-    public class HumanPerson : Person
+    public enum PersonType
     {
+        Human,
+        Bot
     }
 }

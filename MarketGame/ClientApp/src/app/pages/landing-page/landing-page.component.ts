@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HelperService } from 'src/app/services/helper/helper.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -8,12 +8,12 @@ import { HelperService } from 'src/app/services/helper/helper.service';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor(private helperService: HelperService) { 
+  constructor(private apiService: ApiService) { 
     
   }
 
   ngOnInit(): void {
-    this.helperService.pingServer();
+    this.apiService.getBots();
   }
 
 }

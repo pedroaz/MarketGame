@@ -18,16 +18,16 @@ namespace MarketGame.Controllers
             this.gameStateManager = gameStateManager;
         }
 
-        [HttpGet("Bots")]
-        public IActionResult Bots()
+        [HttpGet("People")]
+        public IActionResult People()
         {
-            return Ok(gameStateManager.GameState.Bots);
+            return Ok(gameStateManager.GameState.People);
         }
 
-        [HttpGet("BotById")]
-        public IActionResult BotById(int id)
+        [HttpGet("PeopleById")]
+        public IActionResult PeopleById(int id)
         {
-            return Ok(gameStateManager.GameState.Bots.Where(x => x.Id.Equals(id)));
+            return Ok(gameStateManager.GameState.People.Where(x => x.Id.Equals(id)));
         }
 
         [HttpGet("SellOrders")]

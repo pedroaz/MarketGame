@@ -9,6 +9,7 @@ namespace MarketGame.Core.Models.People
     public class Person
     {
         public int Id { get; set; }
+        public PersonType PersonType { get; set; }
         public string Name { get; set; }
         public float Money { get; set; }
         public List<StockCertificate> StockCertificates { get; set; }

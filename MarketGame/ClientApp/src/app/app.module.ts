@@ -9,19 +9,24 @@ import { AppComponent } from './app.component';
 
 // NGPRIME:
 import { ButtonModule } from 'primeng/button';
+import {TableModule} from 'primeng/table';
 
 // Pages
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
 import { PortalPageComponent } from './pages/portal-page/portal-page.component';
 
 // Services
-import { HelperService } from './services/helper/helper.service'
+import { ApiService } from './services/api.service'
+import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { PeopleTableComponent } from './tables/people-table/people-table.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
-    PortalPageComponent
+    PortalPageComponent,
+    LoginPageComponent,
+    PeopleTableComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -32,11 +37,12 @@ import { HelperService } from './services/helper/helper.service'
       [
         { path: '', component: LandingPageComponent},
         { path: 'portal', component: PortalPageComponent},
+        { path: 'login', component: LoginPageComponent},
       ], 
       { relativeLinkResolution: 'legacy' })
   ],
   providers: [
-    HelperService
+    ApiService
   ],
   bootstrap: [AppComponent]
 })
