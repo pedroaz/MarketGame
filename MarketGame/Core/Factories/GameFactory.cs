@@ -38,14 +38,19 @@ namespace MarketGame.Core.Initializer
             }
 
             // Create bots
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 5; i++) {
                 
                 // Create bot object
                 var bot = CreateBot();
 
                 // Give random stocks for the bot
                 foreach (var stock in gameStateManager.GameState.Stocks) {
-                    bot.Stocks.Add(stock.Name, randomService.RandomInt(0, 5));
+                    bot.StockCertificates.Add(new StockCertificate(){
+                        Stock = stock,
+                        Amount = randomService.RandomInt(0, 5),
+                        BoughtDate = DateTime.Now,
+                        ValueWhenBought = stock.LastNegotiationPrice
+                    });
                 }
 
                 gameStateManager.GameState.Bots.Add(bot);
@@ -57,11 +62,11 @@ namespace MarketGame.Core.Initializer
 
         public BotPerson CreateBot()
         {
-            BotPerson bot = new BotPerson(){
+            BotPerson bot = new BotPerson() {
                 Id = PersonCounter,
                 Money = randomService.RandomInt(0, 1000),
                 Name = $"BOT_{PersonCounter}",
-                Stocks = new Dictionary<string,int>()
+                StockCertificates = new List<StockCertificate>()
             };
 
             PersonCounter++;

@@ -59,8 +59,6 @@ namespace MarketGame.Core.Simulator
         {
             AddCounter();
 
-            CleanUp();
-
             PlaceSellOrders();
 
             PlaceBuyOrders();
@@ -76,69 +74,14 @@ namespace MarketGame.Core.Simulator
             logService.Log($"Simulating Game. Counter: {simulationCounter}");
         }
 
-        private void CleanUp()
+        private void PlaceSellOrders()
         {
-            foreach (var person in gameStateManager.GameState.Bots) {
-
-                var zeroStocks = new List<string>();
-
-                foreach (var kvp in person.Stocks) {
-                    if (kvp.Value < 1) {
-                        zeroStocks.Add(kvp.Key);
-                    }
-                }
-
-                foreach (var stockName in zeroStocks) {
-                    person.Stocks.Remove(stockName);
-                }
-            }
+            
         }
 
         private void PlaceBuyOrders()
         {
-            foreach (var bot in gameStateManager.GameState.Bots) {
-
-                foreach (var stock in gameStateManager.GameState.Stocks) {
-
-                    // 10% to want to buy
-                    if (randomService.PercentageCheck(0.1f)) {
-
-                    }
-                }
-            }
-        }
-
-        private void PlaceSellOrders()
-        {
-            foreach (var bot in gameStateManager.GameState.Bots) {
-
-                var listOfSellOffers = new List<Order>();
-
-                foreach (var kvp in bot.Stocks) {
-
-                    // 20% to sell all
-                    if (randomService.PercentageCheck(0.2f)) {
-                        string stockName = kvp.Key;
-                        int amountToSell = kvp.Value;
-
-                        var stock = gameStateManager.GameState.Stocks.Find(x => x.Name.Equals(stockName));
-                        var sellStockOffer = new Order() {
-                            OrderType = OrderType.Sell,
-                            Stock = stock,
-                            Amount = amountToSell,
-                            Person = bot,
-                            Value = stock.LastNegotiationPrice + randomService.RandomFloat(-1, 1)
-                        };
-                        listOfSellOffers.Add(sellStockOffer);
-                        gameStateManager.GameState.Orders.Add(sellStockOffer);
-                    }
-                }
-
-                // Remove from person immediatlly
-                foreach (var sellOffer in listOfSellOffers) {
-                    bot.Stocks[sellOffer.Stock.Name] -= sellOffer.Amount;
-                }
-            }
+            
         }
 
         private void ExecuteOrders()

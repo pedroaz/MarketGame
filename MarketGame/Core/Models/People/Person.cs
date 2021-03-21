@@ -11,9 +11,6 @@ namespace MarketGame.Core.Models.People
         public int Id { get; set; }
         public string Name { get; set; }
         public float Money { get; set; }
-        /// <summary>
-        /// string = name | int = amount
-        /// </summary>
-        public IDictionary<string, int> Stocks { get; set; }
+        public List<StockCertificate> StockCertificates { get; set; }
     }
 }

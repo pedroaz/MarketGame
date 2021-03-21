@@ -9,6 +9,7 @@ namespace MarketGame.Core.Models.Market
     public class Order
     {
         public OrderType OrderType { get; set; }
+        public OrderStatus OrderStatus { get; set; }
         public Stock Stock { get; set; }
         public int Amount { get; set; }
         public float Value { get; set; }
