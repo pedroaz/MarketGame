@@ -10,9 +10,8 @@ namespace MarketGame.Core.State
 {
     public class GameStateManager : IGameStateManager
     {
-        public List<BotPerson> Bots { get; set; }
-        public List<Person> People { get; set; }
-        public List<Company> Companies { get; set; }
-        public List<Stock> Stocks { get; set; }
+        private GameState gameState;
+
+        public GameState GameState { get => gameState; set => gameState = value; }
     }
 }

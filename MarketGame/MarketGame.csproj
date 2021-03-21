@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.12" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,8 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Core\Initializer\" />
-    <Folder Include="Core\Simulator\" />
+    <Folder Include="Core\Models\NewFolder\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

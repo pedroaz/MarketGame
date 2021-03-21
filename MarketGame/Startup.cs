@@ -1,12 +1,14 @@
 using MarketGame.Core.Infra.Log;
+using MarketGame.Core.Infra.Rng;
+using MarketGame.Core.Initializer;
 using MarketGame.Core.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
 
 namespace MarketGame
 {
@@ -23,6 +25,8 @@ namespace MarketGame
         {
             services.AddSingleton<IGameStateManager, GameStateManager>();
             services.AddSingleton<ILogService, LogService>();
+            services.AddSingleton<IGameFactory, GameFactory>();
+            services.AddSingleton<IRandomService, RandomService>();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -30,14 +34,16 @@ namespace MarketGame
         {
             RegisterInterfaces(services);
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddJsonOptions(opts => {
+                opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration => {
                 configuration.RootPath = "ClientApp/dist";
             });
         }
 
-        
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

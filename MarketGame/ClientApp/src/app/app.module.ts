@@ -6,7 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
 
 // NGPRIME:
 import {ButtonModule} from 'primeng/button';
@@ -20,8 +19,7 @@ import { HelperService } from './services/helper/helper.service'
 
 @NgModule({
   declarations: [
-    AppComponent,
-    FetchDataComponent
+    AppComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

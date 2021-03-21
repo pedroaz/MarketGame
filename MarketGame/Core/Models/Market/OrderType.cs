@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace MarketGame.Core.Models.Market
 {
-    public class Stock
+    public enum OrderType
     {
-        public string Name { get; set; }
-        public float LastNegotiationPrice { get; set; }
-        
+        Buy,
+        Sell
     }
 }

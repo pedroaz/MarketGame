@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace MarketGame.Core.Models.Market
 {
-    public class BuyStockOffer
+    public class Order
     {
-        public Person Buyer { get; set; }
-        public float Offer { get; set; }
+        public OrderType OrderType { get; set; }
+        public Stock Stock { get; set; }
         public int Amount { get; set; }
+        public float Value { get; set; }
+        public Person Person { get; set; }
     }
 }
