@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
 // NGPRIME:
-import {ButtonModule} from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 
 // Pages
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -19,7 +19,9 @@ import { HelperService } from './services/helper/helper.service'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LandingPageComponent,
+    PortalPageComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
