@@ -12,6 +12,13 @@ namespace MarketGame.Core.Initializer
 {
     public class GameFactory : IGameFactory
     {
+
+
+        private const int INITIAL_AMOUNT_OF_STOCKS = 5;
+        private const int INITIAL_AMOUNT_OF_BOTS = 10000;
+
+
+
         private readonly IGameStateManager gameStateManager;
         private readonly ILogService logService;
         private readonly IRandomService randomService;
@@ -33,12 +40,12 @@ namespace MarketGame.Core.Initializer
             gameStateManager.GameState = new GameState();
 
             // Create stocks
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < INITIAL_AMOUNT_OF_STOCKS; i++) {
                 gameStateManager.GameState.Stocks.Add(CreateStock());
             }
 
             // Create bots
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < INITIAL_AMOUNT_OF_BOTS; i++) {
                 
                 // Create bot object
                 var bot = CreateBot();
@@ -80,7 +87,7 @@ namespace MarketGame.Core.Initializer
         public Stock CreateStock()
         {
             Stock stock = new Stock() {
-                LastNegotiationPrice = randomService.RandomInt(0, 100),
+                LastNegotiationPrice = decimal.Round(randomService.RandomDecimal(0, 100),2),
                 Name = $"Stock_{StockCounter}"
             };
 

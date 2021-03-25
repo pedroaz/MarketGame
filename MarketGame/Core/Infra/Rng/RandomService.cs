@@ -20,6 +20,11 @@ namespace MarketGame.Core.Infra.Rng
             return (float)val;
         }
 
+        public decimal RandomDecimal(decimal min, decimal max)
+        {
+            return (decimal) RandomFloat((float) min, (float)max);
+        }
+
         public bool PercentageCheck(float chance)
         {
             var value = random.NextDouble();

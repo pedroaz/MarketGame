@@ -14,7 +14,7 @@ namespace MarketGame.Core.Models.Market
         public OrderStatus OrderStatus { get; set; }
         public Stock Stock { get; set; }
         public int Amount { get; set; }
-        public float Value { get; set; }
+        public decimal Value { get; set; }
         public Person Person { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.Now;
         public string CreationTimeFormatted => CreationTime.ToString("yyyy/MM/dd - H:mm:ss");

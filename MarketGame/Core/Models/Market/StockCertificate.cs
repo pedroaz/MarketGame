@@ -9,7 +9,7 @@ namespace MarketGame.Core.Models.Market
     {
         public Stock Stock { get; set; }
         public int Amount { get; set; }
-        public float ValueWhenBought { get; set; }
+        public decimal ValueWhenBought { get; set; }
         public DateTime BoughtDate { get; set; }
     }
 }

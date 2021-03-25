@@ -8,7 +8,6 @@ namespace MarketGame.Core.Models.Market
     public class Stock
     {
         public string Name { get; set; }
-        public float LastNegotiationPrice { get; set; }
-        
+        public decimal LastNegotiationPrice { get; set; }
     }
 }

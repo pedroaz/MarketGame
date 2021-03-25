@@ -89,7 +89,7 @@ namespace MarketGame.Core.Simulator
                         OrderType = OrderType.Sell,
                         Person = person,
                         Stock = stockCertificate.Stock,
-                        Value = stockCertificate.ValueWhenBought
+                        Value = decimal.Round(stockCertificate.ValueWhenBought + randomService.RandomDecimal(-0.1M, 0.1M), 2)
                     });
                 }
 
@@ -113,7 +113,7 @@ namespace MarketGame.Core.Simulator
                 foreach (var stock in gameStateManager.GameState.Stocks) {
                     if (randomService.PercentageCheck(10)) {
                         int amount = (int) Math.Floor(person.Money / stock.LastNegotiationPrice);
-                        float buyPrice = stock.LastNegotiationPrice;
+                        decimal buyPrice = decimal.Round(stock.LastNegotiationPrice + randomService.RandomDecimal(-0.1M, 0.1M), 2);
 
                         if (amount < 1) continue;
 

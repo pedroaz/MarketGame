@@ -10,5 +10,6 @@ namespace MarketGame.Core.Infra.Rng
         int RandomInt(int min, int max);
         float RandomFloat(float min, float max);
         bool PercentageCheck(float chance);
+        decimal RandomDecimal(decimal min, decimal max);
     }
 }

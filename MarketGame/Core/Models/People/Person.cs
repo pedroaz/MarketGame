@@ -11,7 +11,7 @@ namespace MarketGame.Core.Models.People
         public int Id { get; set; }
         public PersonType PersonType { get; set; }
         public string Name { get; set; }
-        public float Money { get; set; }
+        public decimal Money { get; set; }
         public List<StockCertificate> StockCertificates { get; set; }
 
         public void ClearEmptyCertificates()
