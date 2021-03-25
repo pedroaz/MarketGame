@@ -94,6 +94,7 @@ namespace MarketGame.Core.Simulator
                 }
 
                 gameStateManager.GameState.Orders.AddRange(orders);
+                
                 foreach (var order in orders) {
                     var certificate = person.StockCertificates.Find(x => x.Stock.Name.Equals(order.Stock.Name));
                     certificate.Amount -= order.Amount;
@@ -105,7 +106,32 @@ namespace MarketGame.Core.Simulator
 
         private void PlaceBuyOrders()
         {
-            
+            foreach (var person in gameStateManager.GameState.People) {
+
+                var orders = new List<Order>();
+
+                foreach (var stock in gameStateManager.GameState.Stocks) {
+                    if (randomService.PercentageCheck(10)) {
+                        int amount = (int) Math.Floor(person.Money / stock.LastNegotiationPrice);
+                        float buyPrice = stock.LastNegotiationPrice;
+
+                        if (amount < 1) continue;
+
+                        orders.Add(new Order() {
+                            Amount = amount,
+                            OrderStatus = OrderStatus.Open,
+                            OrderType = OrderType.Buy,
+                            Person = person,
+                            Stock = stock,
+                            Value = buyPrice
+                        });
+
+                        person.Money -= buyPrice * amount;
+                    }
+                }
+
+                gameStateManager.GameState.Orders.AddRange(orders);
+            }
         }
 
         private void ExecuteOrders()

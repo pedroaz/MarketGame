@@ -9,4 +9,5 @@ export interface Order{
     amount: number;
     value: number;
     person: Person;
+    creationTime: Date;
 }
