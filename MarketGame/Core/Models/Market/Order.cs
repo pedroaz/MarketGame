@@ -17,5 +17,6 @@ namespace MarketGame.Core.Models.Market
         public float Value { get; set; }
         public Person Person { get; set; }
         public DateTime CreationTime { get; set; } = DateTime.Now;
+        public string CreationTimeFormatted => CreationTime.ToString("yyyy/MM/dd - H:mm:ss");
     }
 }

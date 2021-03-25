@@ -89,7 +89,7 @@ namespace MarketGame.Core.Simulator
                         OrderType = OrderType.Sell,
                         Person = person,
                         Stock = stockCertificate.Stock,
-                        Value = stockCertificate.ValueWhenBought + 1
+                        Value = stockCertificate.ValueWhenBought
                     });
                 }
 
