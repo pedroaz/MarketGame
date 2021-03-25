@@ -53,6 +53,8 @@ namespace MarketGame.Core.Initializer
                     });
                 }
 
+                bot.ClearEmptyCertificates();
+
                 gameStateManager.GameState.People.Add(bot);
             }
 

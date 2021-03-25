@@ -13,5 +13,18 @@ namespace MarketGame.Core.Models.People
         public string Name { get; set; }
         public float Money { get; set; }
         public List<StockCertificate> StockCertificates { get; set; }
+
+        public void ClearEmptyCertificates()
+        {
+            var emptyCertificates = new List<string>();
+
+            foreach (var certificate in StockCertificates) {
+                if (certificate.Amount.Equals(0)) emptyCertificates.Add(certificate.Stock.Name);
+            }
+
+            foreach (var stockName in emptyCertificates) {
+                StockCertificates.RemoveAll(x => x.Stock.Name.Equals(stockName));
+            }
+        }
     }
 }

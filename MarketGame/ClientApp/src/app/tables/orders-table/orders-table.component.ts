@@ -18,6 +18,7 @@ export class OrdersTableComponent implements OnInit {
   }
 
   async refresh(){
+    console.log("Refreshing Table")
     this.orders = await this.apiService.getOrders();
   }
 

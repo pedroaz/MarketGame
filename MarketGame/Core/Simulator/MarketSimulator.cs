@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MarketGame.Core.Simulator
 {
-    public class BackgroundSimulator : IHostedService, IDisposable
+    public class MarketSimulator : IHostedService, IDisposable
     {
         private int simulationCounter = 0;
         private readonly ILogService logService;
@@ -23,7 +23,7 @@ namespace MarketGame.Core.Simulator
 
         private const int SIMULATION_FREQUENCY = 2;
 
-        public BackgroundSimulator(ILogService logService, IGameStateManager gameStateManager,
+        public MarketSimulator(ILogService logService, IGameStateManager gameStateManager,
             IGameFactory gameFactory, IRandomService randomService)
         {
             this.logService = logService;
@@ -76,7 +76,31 @@ namespace MarketGame.Core.Simulator
 
         private void PlaceSellOrders()
         {
-            
+            foreach (var person in gameStateManager.GameState.People) {
+
+                var orders = new List<Order>();
+
+                // Create the orders
+                foreach (var stockCertificate in person.StockCertificates) {
+
+                    orders.Add(new Order() {
+                        Amount = stockCertificate.Amount,
+                        OrderStatus = OrderStatus.Open,
+                        OrderType = OrderType.Sell,
+                        Person = person,
+                        Stock = stockCertificate.Stock,
+                        Value = stockCertificate.ValueWhenBought + 1
+                    });
+                }
+
+                gameStateManager.GameState.Orders.AddRange(orders);
+                foreach (var order in orders) {
+                    var certificate = person.StockCertificates.Find(x => x.Stock.Name.Equals(order.Stock.Name));
+                    certificate.Amount -= order.Amount;
+                }
+
+                person.ClearEmptyCertificates();
+            }
         }
 
         private void PlaceBuyOrders()

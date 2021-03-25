@@ -8,6 +8,8 @@ namespace MarketGame.Core.Models.Market
 {
     public class Order
     {
+        public static int OrderCounter = 0;
+        public int Id {get; set; } =  OrderCounter++;
         public OrderType OrderType { get; set; }
         public OrderStatus OrderStatus { get; set; }
         public Stock Stock { get; set; }

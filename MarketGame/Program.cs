@@ -25,7 +25,7 @@ namespace MarketGame
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddHostedService<BackgroundSimulator>();
+                    services.AddHostedService<MarketSimulator>();
                 });
     }
 }

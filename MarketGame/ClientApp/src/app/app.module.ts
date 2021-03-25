@@ -12,6 +12,8 @@ import { ButtonModule } from 'primeng/button';
 import {TableModule} from 'primeng/table';
 import {CardModule} from 'primeng/card';
 import {TabMenuModule} from 'primeng/tabmenu';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {InputTextModule} from 'primeng/inputtext';
 
 // Pages
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -48,8 +50,10 @@ import { TopMenuComponent } from './navigation/top-menu/top-menu.component'
     FormsModule,
     ButtonModule,
     TableModule,
+    InputTextModule,
     CardModule,
     TabMenuModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(
       [
         { path: '', component: LandingPageComponent},
