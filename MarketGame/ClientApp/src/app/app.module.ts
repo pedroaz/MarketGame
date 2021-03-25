@@ -11,6 +11,7 @@ import { AppComponent } from './app.component';
 import { ButtonModule } from 'primeng/button';
 import {TableModule} from 'primeng/table';
 import {CardModule} from 'primeng/card';
+import {TabMenuModule} from 'primeng/tabmenu';
 
 // Pages
 import { LandingPageComponent } from './pages/landing-page/landing-page.component';
@@ -21,7 +22,12 @@ import { ApiService } from './services/api.service'
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { PeopleTableComponent } from './tables/people-table/people-table.component';
 import { PersonPageComponent } from './pages/person-page/person-page.component';
-import { StockCertificateTableComponent } from './tables/stock-certificate-table/stock-certificate-table.component'
+import { StockCertificateTableComponent } from './tables/stock-certificate-table/stock-certificate-table.component';
+import { OrdersTableComponent } from './tables/orders-table/orders-table.component';
+import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
+import { TopMenuComponent } from './navigation/top-menu/top-menu.component'
+
+
 
 @NgModule({
   declarations: [
@@ -31,7 +37,10 @@ import { StockCertificateTableComponent } from './tables/stock-certificate-table
     LoginPageComponent,
     PeopleTableComponent,
     PersonPageComponent,
-    StockCertificateTableComponent
+    StockCertificateTableComponent,
+    OrdersTableComponent,
+    OrdersPageComponent,
+    TopMenuComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -40,12 +49,14 @@ import { StockCertificateTableComponent } from './tables/stock-certificate-table
     ButtonModule,
     TableModule,
     CardModule,
+    TabMenuModule,
     RouterModule.forRoot(
       [
         { path: '', component: LandingPageComponent},
         { path: 'portal', component: PortalPageComponent},
         { path: 'login', component: LoginPageComponent},
         { path: 'person/:id', component: PersonPageComponent},
+        { path: 'orders', component: OrdersPageComponent},
       ], 
       { relativeLinkResolution: 'legacy' })
   ],

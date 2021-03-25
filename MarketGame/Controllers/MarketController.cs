@@ -31,16 +31,12 @@ namespace MarketGame.Controllers
             return Ok(gameStateManager.GameState.People.Where(x => x.Id.Equals(id)).FirstOrDefault());
         }
 
-        [HttpGet("SellOrders")]
-        public ActionResult<IEnumerable<Order>> SellOrders()
+        [HttpGet("Orders")]
+        public ActionResult<IEnumerable<Order>> Orders()
         {
-            return Ok(gameStateManager.GameState.Orders.Where(x => x.OrderType.Equals(OrderType.Sell)));
+            return Ok(gameStateManager.GameState.Orders);
         }
 
-        [HttpGet("BuyOrders")]
-        public ActionResult<IEnumerable<Order>> BuyOrders()
-        {
-            return Ok(gameStateManager.GameState.Orders.Where(x => x.OrderType.Equals(OrderType.Buy)));
-        }
+        
     }
 }

@@ -1,0 +1,32 @@
+<div class="card">
+    <p-table 
+        [value]="orders" 
+        [virtualScroll]="true" 
+        [virtualRowHeight]="34"
+        [scrollable]="true"
+        [rows]="100" 
+        scrollHeight="250px"
+    >
+
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Order Type</th>
+                <th>Order Status</th>
+                <th>Stock</th>
+                <th>Amount</th>
+                <th>Value</th>
+                <th>Person</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-order>
+            <tr>
+                <td>{{order.orderType}}</td>
+                <td>{{order.orderStatus}}</td>
+                <td>{{order.stock.name}}</td>
+                <td>{{order.amount}}</td>
+                <td>{{order.value}}</td>
+                <td>{{order.person.name}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

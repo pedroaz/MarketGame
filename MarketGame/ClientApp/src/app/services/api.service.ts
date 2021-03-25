@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Order } from '../models/order';
 import { Person } from '../models/person';
 
 @Injectable({
@@ -26,5 +27,9 @@ export class ApiService {
 
   async getPersonById(id: string){
     return await this.httpClient.get<Person>(this.baseUrl + 'api/PeopleById?id='+id).toPromise();
+  }
+
+  async getOrders(){
+    return await this.httpClient.get<Order[]>(this.baseUrl + 'api/Orders').toPromise();
   }
 }
