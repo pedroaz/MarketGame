@@ -17,8 +17,6 @@ namespace MarketGame.Core.Simulator
 
         private const int SIMULATION_FREQUENCY = 10;
 
-
-
         private int SIMULATION_COUNTER = 0;
         private readonly ILogService logService;
         private readonly IGameStateManager gameStateManager;
@@ -61,6 +59,13 @@ namespace MarketGame.Core.Simulator
 
         private void SimulateGame(object state)
         {
+            if(gameStateManager.GameState.ManualSimulationCounter > 0) {
+                gameStateManager.GameState.ManualSimulationCounter--;
+            }
+            else if (!gameStateManager.GameState.AutoSimulation) {
+                return;
+            }
+
             AddCounter();
 
             PlaceSellOrders();
@@ -87,8 +92,9 @@ namespace MarketGame.Core.Simulator
                 // Create the orders
                 foreach (var stockCertificate in person.StockCertificates) {
 
-                    var value = decimal.Round(stockCertificate.Value.Stock.LastNegotiationPrice + randomService.RandomDecimal(-0.1M, 0.1M), 2);
-                    orders.Add(new Order(OrderType.Sell, stockCertificate.Value.Stock, stockCertificate.Value.Amount, value, person));
+                    var value = decimal.Round(stockCertificate.Stock.LastNegotiationPrice + randomService.RandomDecimal(-0.1M, 0.1M), 2);
+                    var amount = randomService.RandomInt(0, stockCertificate.Amount);
+                    orders.Add(new Order(OrderType.Sell, stockCertificate.Stock, amount, value, person));
                 }
 
                 // Add order the game manager
@@ -96,7 +102,7 @@ namespace MarketGame.Core.Simulator
                 
                 // Remove the stocks from the person
                 foreach (var order in orders) {
-                    var certificate = person.StockCertificates[order.Stock.Name];
+                    var certificate = person.StockCertificates.Find(x => x.Stock.Name.Equals(order.Stock.Name));
                     certificate.Amount -= order.Amount;
                 }
 
@@ -165,6 +171,8 @@ namespace MarketGame.Core.Simulator
                         amountToChange = buyOrder.AmountRemaining;
                     }
 
+                    if (amountToChange == 0) continue;
+
                     // Remove amount from the orders
                     buyOrder.AmountRemaining -= amountToChange;
                     sellOrder.AmountRemaining -= amountToChange;
@@ -177,6 +185,9 @@ namespace MarketGame.Core.Simulator
 
                     if (buyOrder.AmountRemaining == 0) buyOrder.OrderStatus = OrderStatus.Executed;
                     if (sellOrder.AmountRemaining == 0) sellOrder.OrderStatus = OrderStatus.Executed;
+
+                    var negotiation = new Negotiation(buyOrder.Stock, buyOrder.Person, sellOrder.Person, amountToChange, negociationPrice);
+                    gameStateManager.GameState.Negotiations.Add(negotiation);
                 }
             }
         }

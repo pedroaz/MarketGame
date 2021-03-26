@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
+import { Negotiation } from '../models/negotations';
 import { Order } from '../models/order';
 import { Person } from '../models/person';
 
@@ -31,5 +32,13 @@ export class ApiService {
 
   async getOrders(){
     return await this.httpClient.get<Order[]>(this.baseUrl + 'api/Orders').toPromise();
+  }
+
+  async getNegotiations(){
+    return await this.httpClient.get<Negotiation[]>(this.baseUrl + 'api/Negotations').toPromise();
+  }
+
+  async getNegotiationsFromPerson(id: string){
+    return await this.httpClient.get<Negotiation[]>(this.baseUrl + 'api/NegotationsFromPerson?id='+id).toPromise();
   }
 }

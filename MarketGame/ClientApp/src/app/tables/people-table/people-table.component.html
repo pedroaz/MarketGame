@@ -8,9 +8,13 @@
         [virtualRowHeight]="34"
         [scrollable]="true"
         [rows]="100" 
-        scrollHeight="250px"
+        scrollHeight="500px"
     >
-
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <button pButton label="Refresh Table" class="p-button-outlined" icon="pi pi-refresh" (click)="refresh()"></button>
+            </div>
+        </ng-template>
         <ng-template pTemplate="header">
             <tr>
                 <th>Person</th>

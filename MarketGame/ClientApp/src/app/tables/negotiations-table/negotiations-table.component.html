@@ -1,0 +1,45 @@
+<div class="card">
+    <p-table #dt2
+        [value]="negotiations" 
+        [virtualScroll]="true" 
+        [virtualRowHeight]="34"
+        [scrollable]="true"
+        [rows]="100" 
+        scrollHeight="500px"
+        [globalFilterFields]="['stock.name', 'buyer.name', 'seller.name']"
+    >
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex">
+                <button pButton label="Refresh Table" class="p-button-outlined" icon="pi pi-refresh" (click)="refresh()"></button>
+                <span class="p-input-icon-left p-ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt2.filterGlobal($event.target.value, 'contains')" placeholder="Search keyword" />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Negotiation ID</th>
+                <th>Negotiation Date</th>
+                <th>Stock</th>
+                <th>Buyer</th>
+                <th>Seller</th>
+                <th>Amount</th>
+                <th>Value</th>
+                <th>Total Value</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-negotiation>
+            <tr>
+                <td>{{negotiation.id}}</td>
+                <td>{{negotiation.timeFormatted}}</td>
+                <td>{{negotiation.stock.name}}</td>
+                <td>{{negotiation.buyer.name}}</td>
+                <td>{{negotiation.seller.name}}</td>
+                <td>{{negotiation.amount}}</td>
+                <td>{{negotiation.value}}</td>
+                <td>{{(negotiation.value * negotiation.amount).toFixed(2)}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

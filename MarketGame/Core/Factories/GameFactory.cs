@@ -14,8 +14,8 @@ namespace MarketGame.Core.Initializer
     {
 
 
-        private const int INITIAL_AMOUNT_OF_STOCKS = 5;
-        private const int INITIAL_AMOUNT_OF_BOTS = 10;
+        private const int INITIAL_AMOUNT_OF_STOCKS = 1;
+        private const int INITIAL_AMOUNT_OF_BOTS = 5;
 
 
 
@@ -38,6 +38,9 @@ namespace MarketGame.Core.Initializer
             logService.Log("Starting to initialize game");
             gameStateManager.GameState = new GameState();
 
+            // Create GOD
+            gameStateManager.GameState.God = new Person();
+
             // Create stocks
             for (int i = 0; i < INITIAL_AMOUNT_OF_STOCKS; i++) {
                 gameStateManager.GameState.Stocks.Add(CreateStock());
@@ -51,7 +54,10 @@ namespace MarketGame.Core.Initializer
 
                 // Give random stocks for the bot
                 foreach (var stock in gameStateManager.GameState.Stocks) {
-                    bot.AddStockCertificate(stock, randomService.RandomInt(0, 5));
+                    var amount = randomService.RandomInt(0, 5);
+                    if (amount == 0) continue;
+                    bot.AddStockCertificate(stock, amount);
+                    gameStateManager.GameState.Negotiations.Add(new Negotiation(stock, bot, gameStateManager.GameState.God, amount, 0));
                 }
 
                 bot.ClearEmptyCertificates();

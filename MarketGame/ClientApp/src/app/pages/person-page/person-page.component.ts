@@ -17,8 +17,13 @@ export class PersonPageComponent implements OnInit {
   constructor(private route: ActivatedRoute, private apiService : ApiService) { }
 
   async ngOnInit(): Promise<void> {
+    await this.refresh();
+  }
+
+  async refresh(){
     this.id = this.route.snapshot.paramMap.get('id');
     this.person = await this.apiService.getPersonById(this.id);
+    console.log(this.person.stockCertificates);
   }
 
 }

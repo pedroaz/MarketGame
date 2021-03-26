@@ -8,6 +8,7 @@ namespace MarketGame.Core.Models.People
     public enum PersonType
     {
         Human,
-        Bot
+        Bot,
+        God
     }
 }

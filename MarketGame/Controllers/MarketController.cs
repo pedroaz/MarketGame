@@ -19,6 +19,28 @@ namespace MarketGame.Controllers
             this.gameStateManager = gameStateManager;
         }
 
+        [HttpGet("EnableSimulation")]
+        public ActionResult<IEnumerable<Person>> EnableSimulation()
+        {
+            gameStateManager.GameState.AutoSimulation = true;
+            return Ok();
+        }
+
+        [HttpGet("DisableSimulation")]
+        public ActionResult<IEnumerable<Person>> DisableSimulation()
+        {
+            gameStateManager.GameState.AutoSimulation = false;
+            return Ok();
+        }
+
+        [HttpGet("AddManualSimulation")]
+        public ActionResult<IEnumerable<Person>> AddManualSimulation()
+        {
+            gameStateManager.GameState.ManualSimulationCounter++;
+            return Ok();
+        }
+
+
         [HttpGet("People")]
         public ActionResult<IEnumerable<Person>> People()
         {
@@ -37,6 +59,18 @@ namespace MarketGame.Controllers
             return Ok(gameStateManager.GameState.Orders);
         }
 
-        
+        [HttpGet("Negotations")]
+        public ActionResult<IEnumerable<Negotiation>> Negotations()
+        {
+            return Ok(gameStateManager.GameState.Negotiations);
+        }
+
+        [HttpGet("NegotationsFromPerson")]
+        public ActionResult<IEnumerable<Negotiation>> NegotationsFromPerson(int id)
+        {
+            return Ok(gameStateManager.GameState.Negotiations.Where(x => x.Buyer.Id == id || x.Seller.Id == id));
+        }
+
+
     }
 }

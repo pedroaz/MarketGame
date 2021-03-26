@@ -1,12 +1,39 @@
 
 <app-top-menu></app-top-menu>
 
+<button pButton label="Refresh Table" class="p-button-outlined" icon="pi pi-refresh" (click)="refresh()"></button>
+
 <h1>Person with id: {{id}}</h1>
 
 <h4>Name: {{person.name}}</h4>
 
 <h4>Money: {{person.money}}</h4>
 
-<app-stock-certificate-table 
-    [stockCertificates]="person.stockCertificates">
-</app-stock-certificate-table>
+<div class="card">
+    <p-table 
+        [value]="person.stockCertificates" 
+        [virtualScroll]="true" 
+        [virtualRowHeight]="34"
+        [scrollable]="true"
+        [rows]="100" 
+        scrollHeight="250px"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Stock Name</th>
+                <th>Amount</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-stockCertificate>
+            <tr>
+                <td>{{stockCertificate.stock.name}}</td>
+                <td>{{stockCertificate.amount}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<app-person-negotiations-table
+    [personId]="person.id">    
+</app-person-negotiations-table>
+

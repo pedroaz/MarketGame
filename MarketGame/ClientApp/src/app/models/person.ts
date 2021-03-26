@@ -1,7 +1,8 @@
+import { Negotiation } from "./negotations";
 import { StockCertificate } from "./stockCertificate";
 
 export interface Person{
-    stockCertificates: StockCertificate[];
+    stockCertificates: StockCertificate[]
     id: number;
     name: string;
     money: number;

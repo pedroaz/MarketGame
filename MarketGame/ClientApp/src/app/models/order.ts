@@ -1,8 +1,6 @@
 import { Person } from "./person";
 import { Stock } from "./stock";
 
-import {formatDate} from '@angular/common';
-
 export interface Order{
     id: number;
     orderType: string;

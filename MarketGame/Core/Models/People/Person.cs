@@ -14,8 +14,7 @@ namespace MarketGame.Core.Models.People
         public PersonType PersonType { get; set; }
         public string Name { get; set; }
         public decimal Money { get; set; }
-        public Dictionary<string, StockCertificate> StockCertificates { get; set; }
-
+        public List<StockCertificate> StockCertificates { get; set; } = new List<StockCertificate>();
 
         /// <summary>
         /// Human Constructor
@@ -29,7 +28,6 @@ namespace MarketGame.Core.Models.People
 
             Name = name;
             Money = money;
-            StockCertificates = new Dictionary<string, StockCertificate>();
         }
 
         /// <summary>
@@ -43,16 +41,27 @@ namespace MarketGame.Core.Models.People
 
             Name = $"BOT_{Id}";
             Money = money;
-            StockCertificates = new Dictionary<string, StockCertificate>();
+        }
+
+        /// <summary>
+        /// God Constructor
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="money"></param>
+        public Person()
+        {
+            PersonType = PersonType.God;
+            Id = PERSON_GLOBAL_COUNTER++;
+            Name = "GOD";
         }
 
         public void AddStockCertificate(Stock stock, int amount)
         {
-            if (StockCertificates.ContainsKey(stock.Name)) {
-                StockCertificates[stock.Name].Amount += amount;
+            if (StockCertificates.Any(x => x.Stock.Name.Equals(stock.Name))) {
+                StockCertificates.Find(x => x.Stock.Name.Equals(stock.Name)).Amount += amount;
             }
             else {
-                StockCertificates.Add(stock.Name, new StockCertificate(stock, amount));
+                StockCertificates.Add(new StockCertificate(stock, amount));
             }
         }
 
@@ -61,11 +70,11 @@ namespace MarketGame.Core.Models.People
             var emptyCertificates = new List<string>();
 
             foreach (var certificate in StockCertificates) {
-                if (certificate.Value.Amount.Equals(0)) emptyCertificates.Add(certificate.Value.Stock.Name);
+                if (certificate.Amount.Equals(0)) emptyCertificates.Add(certificate.Stock.Name);
             }
 
             foreach (var stockName in emptyCertificates) {
-                StockCertificates.Remove(stockName);
+                StockCertificates.RemoveAll(x => x.Stock.Name.Equals(stockName));
             }
         }
     }

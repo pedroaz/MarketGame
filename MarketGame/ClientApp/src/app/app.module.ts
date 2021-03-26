@@ -24,10 +24,11 @@ import { ApiService } from './services/api.service'
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { PeopleTableComponent } from './tables/people-table/people-table.component';
 import { PersonPageComponent } from './pages/person-page/person-page.component';
-import { StockCertificateTableComponent } from './tables/stock-certificate-table/stock-certificate-table.component';
 import { OrdersTableComponent } from './tables/orders-table/orders-table.component';
 import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
-import { TopMenuComponent } from './navigation/top-menu/top-menu.component'
+import { TopMenuComponent } from './navigation/top-menu/top-menu.component';
+import { NegotiationsTableComponent } from './tables/negotiations-table/negotiations-table.component';
+import { PersonNegotiationsTableComponent } from './tables/person-negotiations-table/person-negotiations-table.component'
 
 
 
@@ -39,10 +40,11 @@ import { TopMenuComponent } from './navigation/top-menu/top-menu.component'
     LoginPageComponent,
     PeopleTableComponent,
     PersonPageComponent,
-    StockCertificateTableComponent,
     OrdersTableComponent,
     OrdersPageComponent,
-    TopMenuComponent
+    TopMenuComponent,
+    NegotiationsTableComponent,
+    PersonNegotiationsTableComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
