@@ -14,14 +14,18 @@ namespace MarketGame.Core.Simulator
 {
     public class MarketSimulator : IHostedService, IDisposable
     {
-        private int simulationCounter = 0;
+
+        private const int SIMULATION_FREQUENCY = 10;
+
+
+
+        private int SIMULATION_COUNTER = 0;
         private readonly ILogService logService;
         private readonly IGameStateManager gameStateManager;
         private readonly IGameFactory gameFactory;
         private readonly IRandomService randomService;
         private Timer _timer;
 
-        private const int SIMULATION_FREQUENCY = 2;
 
         public MarketSimulator(ILogService logService, IGameStateManager gameStateManager,
             IGameFactory gameFactory, IRandomService randomService)
@@ -70,8 +74,8 @@ namespace MarketGame.Core.Simulator
 
         private void AddCounter()
         {
-            Interlocked.Increment(ref simulationCounter);
-            logService.Log($"Simulating Game. Counter: {simulationCounter}");
+            Interlocked.Increment(ref SIMULATION_COUNTER);
+            logService.Log($"Simulating Game. Counter: {SIMULATION_COUNTER}");
         }
 
         private void PlaceSellOrders()
@@ -83,23 +87,20 @@ namespace MarketGame.Core.Simulator
                 // Create the orders
                 foreach (var stockCertificate in person.StockCertificates) {
 
-                    orders.Add(new Order() {
-                        Amount = stockCertificate.Amount,
-                        OrderStatus = OrderStatus.Open,
-                        OrderType = OrderType.Sell,
-                        Person = person,
-                        Stock = stockCertificate.Stock,
-                        Value = decimal.Round(stockCertificate.ValueWhenBought + randomService.RandomDecimal(-0.1M, 0.1M), 2)
-                    });
+                    var value = decimal.Round(stockCertificate.Value.Stock.LastNegotiationPrice + randomService.RandomDecimal(-0.1M, 0.1M), 2);
+                    orders.Add(new Order(OrderType.Sell, stockCertificate.Value.Stock, stockCertificate.Value.Amount, value, person));
                 }
 
+                // Add order the game manager
                 gameStateManager.GameState.Orders.AddRange(orders);
                 
+                // Remove the stocks from the person
                 foreach (var order in orders) {
-                    var certificate = person.StockCertificates.Find(x => x.Stock.Name.Equals(order.Stock.Name));
+                    var certificate = person.StockCertificates[order.Stock.Name];
                     certificate.Amount -= order.Amount;
                 }
 
+                // Clean the stock certificates if he has no amount of that stock
                 person.ClearEmptyCertificates();
             }
         }
@@ -111,32 +112,73 @@ namespace MarketGame.Core.Simulator
                 var orders = new List<Order>();
 
                 foreach (var stock in gameStateManager.GameState.Stocks) {
+                    
+                    // Random change to buy
                     if (randomService.PercentageCheck(10)) {
+
+                        // Try to buy the max he cans of that stock
                         int amount = (int) Math.Floor(person.Money / stock.LastNegotiationPrice);
                         decimal buyPrice = decimal.Round(stock.LastNegotiationPrice + randomService.RandomDecimal(-0.1M, 0.1M), 2);
 
                         if (amount < 1) continue;
 
-                        orders.Add(new Order() {
-                            Amount = amount,
-                            OrderStatus = OrderStatus.Open,
-                            OrderType = OrderType.Buy,
-                            Person = person,
-                            Stock = stock,
-                            Value = buyPrice
-                        });
+                        // Add new order
+                        gameStateManager.GameState.Orders.Add(new Order(OrderType.Buy, stock, amount, buyPrice, person));
 
+                        // Remove money from the person as soon as he places the order - probabbly will need to change this later
                         person.Money -= buyPrice * amount;
                     }
                 }
 
-                gameStateManager.GameState.Orders.AddRange(orders);
+                
             }
         }
 
         private void ExecuteOrders()
         {
-            
+            foreach (var buyOrder in gameStateManager.GameState.Orders.Where(x => x.OrderType.Equals(OrderType.Buy))) {
+
+                // Find all sell orders which match the stock and are open
+                var sellOrders = gameStateManager.GameState.Orders.Where(
+                    x => x.OrderType.Equals(OrderType.Sell) &&
+                    x.Stock.Name.Equals(buyOrder.Stock.Name) &&
+                    x.OrderStatus.Equals(OrderStatus.Open)
+                );
+
+                foreach (var sellOrder in sellOrders) {
+
+                    if (buyOrder.OrderStatus.Equals(OrderStatus.Executed)) break;
+
+                    // The buyer is trying to buy for less than the seller is trying to sell
+                    if (buyOrder.Value < sellOrder.Value) continue;
+
+                    int amountToChange = 0;
+                    decimal negociationPrice = sellOrder.Value;
+
+                    // Buy orders has more or they are the same.
+                    // Lets buy all from the sell order then
+                    if(buyOrder.AmountRemaining >= sellOrder.AmountRemaining) {
+                        amountToChange = sellOrder.AmountRemaining;
+                    }
+                    // Sell order has more. Lets buy all we can form the sale order
+                    else if (buyOrder.AmountRemaining < sellOrder.AmountRemaining) {
+                        amountToChange = buyOrder.AmountRemaining;
+                    }
+
+                    // Remove amount from the orders
+                    buyOrder.AmountRemaining -= amountToChange;
+                    sellOrder.AmountRemaining -= amountToChange;
+
+                    // Add stock the buyer
+                    buyOrder.Person.AddStockCertificate(buyOrder.Stock, amountToChange);
+
+                    // Add money to seller
+                    sellOrder.Person.Money += amountToChange * negociationPrice;
+
+                    if (buyOrder.AmountRemaining == 0) buyOrder.OrderStatus = OrderStatus.Executed;
+                    if (sellOrder.AmountRemaining == 0) sellOrder.OrderStatus = OrderStatus.Executed;
+                }
+            }
         }
     }
 }

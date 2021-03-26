@@ -15,7 +15,7 @@ namespace MarketGame.Core.Initializer
 
 
         private const int INITIAL_AMOUNT_OF_STOCKS = 5;
-        private const int INITIAL_AMOUNT_OF_BOTS = 10000;
+        private const int INITIAL_AMOUNT_OF_BOTS = 10;
 
 
 
@@ -25,7 +25,6 @@ namespace MarketGame.Core.Initializer
 
 
         private static int StockCounter = 0;
-        private static int PersonCounter = 0;
 
         public GameFactory(IGameStateManager gameStateManager, ILogService logService, IRandomService randomService)
         {
@@ -48,16 +47,11 @@ namespace MarketGame.Core.Initializer
             for (int i = 0; i < INITIAL_AMOUNT_OF_BOTS; i++) {
                 
                 // Create bot object
-                var bot = CreateBot();
+                var bot = new Person(randomService.RandomInt(0, 1000));
 
                 // Give random stocks for the bot
                 foreach (var stock in gameStateManager.GameState.Stocks) {
-                    bot.StockCertificates.Add(new StockCertificate(){
-                        Stock = stock,
-                        Amount = randomService.RandomInt(0, 5),
-                        BoughtDate = DateTime.Now,
-                        ValueWhenBought = stock.LastNegotiationPrice
-                    });
+                    bot.AddStockCertificate(stock, randomService.RandomInt(0, 5));
                 }
 
                 bot.ClearEmptyCertificates();
@@ -67,21 +61,6 @@ namespace MarketGame.Core.Initializer
 
 
             logService.Log("Finished initializing game");
-        }
-
-        public Person CreateBot()
-        {
-            var bot = new Person() {
-                PersonType = PersonType.Bot,
-                Id = PersonCounter,
-                Money = randomService.RandomInt(0, 1000),
-                Name = $"BOT_{PersonCounter}",
-                StockCertificates = new List<StockCertificate>()
-            };
-
-            PersonCounter++;
-
-            return bot;
         }
 
         public Stock CreateStock()

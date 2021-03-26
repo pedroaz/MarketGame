@@ -9,7 +9,11 @@ namespace MarketGame.Core.Models.Market
     {
         public Stock Stock { get; set; }
         public int Amount { get; set; }
-        public decimal ValueWhenBought { get; set; }
-        public DateTime BoughtDate { get; set; }
+
+        public StockCertificate(Stock stock, int amount)
+        {
+            Stock = stock;
+            Amount = amount;
+        }
     }
 }
